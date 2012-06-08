@@ -16,6 +16,7 @@ module BlueBoxGroup
     def conn
       @conn ||= Faraday.new(:url => "https://boxpanel.bluebox.net/api") do |conn|
         conn.response :json
+        conn.request :url_encoded
         conn.adapter Faraday.default_adapter
         conn.basic_auth(@customer_id, @api_key_secret)
       end
@@ -54,7 +55,7 @@ module BlueBoxGroup
     end
 
     def delete_machine(backend_id, machine_id)
-      delete("lb_backends/#{backend_id}/lb_machines/#{machine_id}")
+      conn.delete("lb_backends/#{backend_id}/lb_machines/#{machine_id}")
     end
 
     # Options are:
@@ -67,8 +68,8 @@ module BlueBoxGroup
     # backup - Only direct traffic to this node if all the other nodes are down.
     def create_machine(backend_id, machine_id, options = {})
       data = { 'lb_machine' => machine_id }
-      data['lb_options'] = options if options.present?
-      post("lb_backends/#{backend_id}/lb_machines", data)
+      data['lb_options'] = options unless options.blank?
+      conn.post("lb_backends/#{backend_id}/lb_machines", data)
     end
 
     def servers

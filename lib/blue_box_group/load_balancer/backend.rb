@@ -20,11 +20,15 @@ module BlueBoxGroup::LoadBalancer
     end
 
     def machines
-      api.machines(id).map {|attrs| Machine.new(api, attrs)}
+      api.machines(id).map {|attrs| Machine.new(self, api, attrs)}
     end
 
     def remove_machine(machine_id)
       api.delete_machine(id, machine_id)
+    end
+
+    def add_machine(machine_id, options = {})
+      api.create_machine(id, machine_id, options)
     end
   end
 end

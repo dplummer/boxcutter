@@ -1,14 +1,15 @@
 module BlueBoxGroup::LoadBalancer
   class Machine
-    attr_reader :api
+    attr_reader :api, :backend
 
-    def initialize(api, attrs)
+    def initialize(backend, api, attrs)
+      @backend = backend
       @api = api
       @attrs = attrs
     end
 
     def to_s
-      "#<Machine id:'#{id}' hostname:'#{hostname}' ip:'#{ip}' port:'#{port}'>"
+      "#<Machine id:'#{id}' backend_id:'#{backend.id}' hostname:'#{hostname}' ip:'#{ip}' port:'#{port}'>"
     end
 
     def port
@@ -25,6 +26,14 @@ module BlueBoxGroup::LoadBalancer
 
     def hostname
       @attrs["hostname"]
+    end
+
+    def remove!
+      backend.remove_machine(id)
+    end
+
+    def add!
+      backend.add_machine(id)
     end
   end
 end
