@@ -3,8 +3,6 @@ GEM
   specs:
     faraday (0.8.1)
       multipart-post (~> 1.1)
-    faraday_middleware (0.8.5)
-      faraday (>= 0.7.4, < 0.9)
     multipart-post (1.1.5)
 
 PLATFORMS
@@ -12,4 +10,3 @@ PLATFORMS
 
 DEPENDENCIES
   faraday
-  faraday_middleware (= 0.8.5)
