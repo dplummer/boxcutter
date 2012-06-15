@@ -1,4 +1,4 @@
-source :rubygems
+source 'https://rubygems.org'
 
-gem 'faraday'
-gem 'faraday_middleware'
+# Specify your gem's dependencies in ..gemspec
+gemspec

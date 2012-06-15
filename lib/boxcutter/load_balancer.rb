@@ -1,4 +1,4 @@
-module BlueBoxGroup
+module Boxcutter
   module LoadBalancer
   end
 end

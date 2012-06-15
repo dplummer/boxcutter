@@ -1,4 +1,4 @@
-module BlueBoxGroup
+module Boxcutter
   class Server
     def self.all
       api = Api.new(*ENV['BBG_API_KEY'].split(':'))

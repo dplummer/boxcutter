@@ -1,12 +1,12 @@
-module BlueBoxGroup::LoadBalancer
+module Boxcutter::LoadBalancer
   class Application
     def self.all
-      api = ::BlueBoxGroup::Api.new(*ENV['BBG_API_KEY'].split(':'))
+      api = ::Boxcutter::Api.new(*ENV['BBG_API_KEY'].split(':'))
       api.applications.map {|attrs| new(api, attrs)}
     end
 
     def self.find(id, api = nil)
-      api = ::BlueBoxGroup::Api.new(*ENV['BBG_API_KEY'].split(':')) if api.nil?
+      api = ::Boxcutter::Api.new(*ENV['BBG_API_KEY'].split(':')) if api.nil?
       new(api, api.application(id))
     end
 

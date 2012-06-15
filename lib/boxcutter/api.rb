@@ -1,4 +1,4 @@
-module BlueBoxGroup
+module Boxcutter
   class Api
     def initialize(customer_id, api_key_secret)
       @customer_id    = customer_id

@@ -1,4 +1,4 @@
-module BlueBoxGroup::LoadBalancer
+module Boxcutter::LoadBalancer
   class Machine
     attr_reader :api, :backend
 
