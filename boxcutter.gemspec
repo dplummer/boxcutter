@@ -18,6 +18,7 @@ Gem::Specification.new do |gem|
     boxcutter.gemspec
     lib/boxcutter.rb
     lib/boxcutter/api.rb
+    lib/boxcutter/command.rb
     lib/boxcutter/load_balancer.rb
     lib/boxcutter/load_balancer/application.rb
     lib/boxcutter/load_balancer/backend.rb
