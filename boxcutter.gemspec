@@ -33,5 +33,5 @@ Gem::Specification.new do |gem|
   gem.version       = Boxcutter::VERSION
 
   gem.add_dependency('faraday')
-  gem.add_dependency('faraday_middleware')
+  gem.add_dependency('trollop')
 end

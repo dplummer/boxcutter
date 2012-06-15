@@ -27,6 +27,14 @@ module Boxcutter::LoadBalancer
       @attrs["service_type"]
     end
 
+    def http?
+      service_type == 'http'
+    end
+
+    def https?
+      service_type == 'https'
+    end
+
     def backends
       api.backends(id).map {|attrs| Backend.new(api, attrs)}
     end

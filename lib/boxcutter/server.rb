@@ -5,6 +5,10 @@ module Boxcutter
       api.servers.map {|attrs| new(api, attrs)}
     end
 
+    def self.find_by_hostname(hostname)
+      all.detect {|server| server.hostname == hostname}
+    end
+
     attr_reader :api
 
     def initialize(api, attrs)

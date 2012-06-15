@@ -1,5 +1,5 @@
 require 'faraday'
-require 'faraday_middleware'
+require 'json'
 
 module Boxcutter
   class Api
@@ -13,12 +13,16 @@ module Boxcutter
     end
 
     def get(path)
-      conn.get(path).body
+      response = conn.get(path)
+      begin
+        JSON.parse(response.body)
+      rescue JSON::ParserError
+        {:message => response.body}
+      end
     end
 
     def conn
       @conn ||= Faraday.new(:url => "https://boxpanel.bluebox.net/api") do |conn|
-        conn.response :json
         conn.request :url_encoded
         conn.adapter Faraday.default_adapter
         conn.basic_auth(@customer_id, @api_key_secret)
@@ -71,7 +75,7 @@ module Boxcutter
     # backup - Only direct traffic to this node if all the other nodes are down.
     def create_machine(backend_id, machine_id, options = {})
       data = { 'lb_machine' => machine_id }
-      data['lb_options'] = options unless options.blank?
+      data['lb_options'] = options unless options.empty?
       conn.post("lb_backends/#{backend_id}/lb_machines", data)
     end
 
