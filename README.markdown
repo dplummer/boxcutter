@@ -23,7 +23,7 @@ section for more information.
 Then load up the API in irb:
 
 ```irb
- $ irb -r './lib/blue_box_group'
+ $ irb -r './lib/boxcutter'
  1.9.3p194 :001 > apps = Boxcutter::LoadBalancer::Application.all
   => [#<Application id:'88888888-cccc-4444-8888-dddddddddddd' name:'example.com' ip_v4:'192.168.1.1' ip_v6:'::1'>]
 ```
