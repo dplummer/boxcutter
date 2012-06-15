@@ -3,7 +3,7 @@ module Boxcutter
   end
 end
 
-require_relative 'load_balancer/application'
-require_relative 'load_balancer/service'
-require_relative 'load_balancer/backend'
-require_relative 'load_balancer/machine'
+require 'boxcutter/load_balancer/application'
+require 'boxcutter/load_balancer/service'
+require 'boxcutter/load_balancer/backend'
+require 'boxcutter/load_balancer/machine'

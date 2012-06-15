@@ -35,4 +35,5 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency('faraday')
   gem.add_dependency('trollop')
+  gem.add_dependency('yajl-ruby')
 end

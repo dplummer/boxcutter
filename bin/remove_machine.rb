@@ -12,4 +12,5 @@ if opts[:hostname].nil? || opts[:hostname].empty?
   Trollop::die :hostname, "You must specify the hostname with -n" 
 end
 
-Boxcutter::Command.remove_machine(opts)
+cmd = Boxcutter::Command.new
+cmd.remove_machine(opts)

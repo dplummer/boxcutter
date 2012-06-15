@@ -1,5 +1,5 @@
 require 'faraday'
-require 'json'
+require 'yajl'
 
 module Boxcutter
   class Api
@@ -15,8 +15,8 @@ module Boxcutter
     def get(path)
       response = conn.get(path)
       begin
-        JSON.parse(response.body)
-      rescue JSON::ParserError
+        Yajl::Parser.new.parse(response.body)
+      rescue Yajl::ParseError
         {:message => response.body}
       end
     end

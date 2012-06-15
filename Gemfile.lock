@@ -4,6 +4,7 @@ PATH
     boxcutter (0.0.1)
       faraday
       trollop
+      yajl-ruby
 
 GEM
   remote: https://rubygems.org/
@@ -12,6 +13,7 @@ GEM
       multipart-post (~> 1.1)
     multipart-post (1.1.5)
     trollop (1.16.2)
+    yajl-ruby (1.1.0)
 
 PLATFORMS
   ruby
