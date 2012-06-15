@@ -8,7 +8,7 @@ Gem::Specification.new do |gem|
   gem.summary       = %q{Wrapper for BlueBoxGroup's API}
   gem.homepage      = "https://github.com/dplummer/boxcutter"
 
-  gem.files         = %w[
+  gem.files = %w[
     .gitignore
     Gemfile
     Gemfile.lock

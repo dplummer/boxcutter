@@ -1,3 +1,6 @@
+require 'faraday'
+require 'faraday_middleware'
+
 module Boxcutter
   class Api
     def initialize(customer_id, api_key_secret)
