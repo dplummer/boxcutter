@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    boxcutter (0.0.1)
+    boxcutter (0.2)
       faraday
       trollop
       yajl-ruby
