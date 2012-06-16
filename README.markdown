@@ -28,6 +28,30 @@ Then load up the API in irb:
   => [#<Application id:'88888888-cccc-4444-8888-dddddddddddd' name:'example.com' ip_v4:'192.168.1.1' ip_v6:'::1'>]
 ```
 
+Command-line script to remove a machine from a load balancer.
+
+```bash
+    $ ./bin/remove_machine.rb -h
+    Options:
+       --backend, -b <s>:   Service backend name (default: default)
+       --hostname, -n <s>:  Machine hostname to remove
+       --dryrun, -d:        Don't actually remove the server from the backend
+       --help, -h:          Show this message
+```
+
+Command-line script to add a machine to a load balancer. This script
+assumes you have two services, one for http and one for https. It will
+add the machine to each service, but with the port set to 80.
+
+```bash
+    $ ./bin/add_machine.rb -h
+    Options:
+       --backend, -b <s>:   Service backend name (default: default)
+       --hostname, -n <s>:  Machine hostname to remove
+       --dryrun, -d:        Don't actually remove the server from the backend
+       --help, -h:          Show this message
+```
+
 This is definately a work in progress. The goal is to use this wrapper
 to add and remove servers from the load balancer during a deploy for
 zero downtime.
