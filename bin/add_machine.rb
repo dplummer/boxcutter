@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-require_relative '../lib/boxcutter'
+require File.dirname(__FILE__) + '/../lib/boxcutter'
 require 'trollop'
 
 opts = Trollop::options do
