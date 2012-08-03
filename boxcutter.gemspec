@@ -33,7 +33,12 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = Boxcutter::VERSION
 
-  gem.add_dependency('faraday')
-  gem.add_dependency('trollop')
-  gem.add_dependency('yajl-ruby')
+  gem.add_dependency('faraday', '~> 0.8.1')
+  gem.add_dependency('trollop', '~> 1.16.2')
+  gem.add_dependency('yajl-ruby', '~> 1.1.0')
+
+  gem.add_development_dependency('rspec', '~> 2.11.0')
+  gem.add_development_dependency('guard', '~> 1.2.3')
+  gem.add_development_dependency('guard-rspec', '~> 1.2.1')
+  gem.add_development_dependency('vcr', '~> 2.2.4')
 end
