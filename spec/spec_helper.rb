@@ -16,5 +16,6 @@ RSpec.configure do |config|
   config.order = 'random'
 end
 
-require_relative '../lib/boxcutter'
+$:.unshift(File.dirname(__FILE__), '..', 'lib')
+require 'boxcutter'
 Bundler.setup(:test)

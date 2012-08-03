@@ -18,7 +18,7 @@ module Boxcutter
       app.services.each do |service|
         if backend = service.backends.detect {|backend| backend.name == backend_name}
           if machine = backend.machines.detect {|machine| machine.hostname == hostname}
-            log "Removing #{machine} from #{backend}"
+            log "Removing #{machine.hostname} from #{backend.name}"
 
             unless dryrun
               response = machine.remove!
@@ -27,7 +27,7 @@ module Boxcutter
               log "#{hostname} was not removed from the backend because --dryrun was specified"
             end
           else
-            log "Could not find '#{hostname}' on #{backend}"
+            log "Could not find '#{hostname}' on '#{backend.name}'"
           end
         else
           log "Could not find '#{backend_name}' backend on #{service}"
