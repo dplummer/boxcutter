@@ -16,9 +16,11 @@ module Boxcutter
       app = Boxcutter::LoadBalancer::Application.all.first
 
       app.services.each do |service|
-        if backend = service.backends.detect {|backend| backend.name == backend_name}
-          if machine = backend.machines.detect {|machine| machine.hostname == hostname}
-            log "Removing #{machine.hostname} from #{backend.name}"
+        each_backend_named(service, backend_name) do |backend|
+        #if backend = service.backends.detect {|backend| backend.name == backend_name}
+          each_machine_named(backend, hostname) do |machine|
+          #if machine = backend.machines.detect {|machine| machine.hostname == hostname}
+            log "Removing #{machine} from #{backend}"
 
             unless dryrun
               response = machine.remove!
@@ -26,11 +28,7 @@ module Boxcutter
             else
               log "#{hostname} was not removed from the backend because --dryrun was specified"
             end
-          else
-            log "Could not find '#{hostname}' on '#{backend.name}'"
           end
-        else
-          log "Could not find '#{backend_name}' backend on #{service}"
         end
       end
     end
@@ -70,5 +68,27 @@ module Boxcutter
     def log(msg)
       @logger.puts msg
     end
+
+    # move to service?
+    def each_backend_named(service, backend_name, &block)
+      backends = service.backends.select {|backend| backend.name == backend_name}
+      if !backends.empty?
+        backends.each(&block)
+      else
+        log "Could not find '#{backend_name}' on '#{service}'"
+      end
+    end
+
+    # move to backend?
+    def each_machine_named(backend, hostname, &block)
+      machines = backend.machines.select {|machine| machine.hostname == hostname}.
+                                  each(&block)
+      if !machines.empty?
+        machines.each(&block)
+      else
+        log "Could not find '#{hostname}' on '#{backend}'"
+      end
+    end
+
   end
 end

@@ -9,7 +9,8 @@ module Boxcutter
     let(:machine) { stub("Machine",
                          :remove!     => remove_response,
                          :hostname => 'app1',
-                         :id => "MACHINE1") }
+                         :id => "MACHINE1",
+                         :to_s => 'app1 machine') }
     let(:other_machine) { stub("Other Machine", :hostname => 'badapp2')}
     let(:machines) { [machine, other_machine] }
     let(:backends) { [backend, other_backend] }
@@ -17,10 +18,11 @@ module Boxcutter
     let(:backend) { stub("Backend",
                          :name => 'default',
                          :add_server => add_response,
-                         :machines => machines)}
+                         :machines => machines,
+                         :to_s => 'default')}
     let(:app) { stub("App", :services => services) }
     let(:services) { [service] }
-    let(:service) { stub("Service", :name => "HTTP", :backends => backends) }
+    let(:service) { stub("Service", :name => "HTTP", :backends => backends, :to_s => 'HTTP') }
 
     subject { Command.new(logger) }
 
@@ -51,7 +53,7 @@ module Boxcutter
       it "logs when initializing" do
         subject.remove_machine(opts)
 
-        logger_contents.should include("Removing app1 from default")
+        logger_contents.should include("Removing app1 machine from default")
       end
 
       it "logs the raw response of the io" do
@@ -82,7 +84,7 @@ module Boxcutter
         it "logs the error" do
           subject.remove_machine(opts)
 
-          logger_contents.should include("Could not find 'default' backend")
+          logger_contents.should include("Could not find 'default' on 'HTTP'")
         end
       end
 
