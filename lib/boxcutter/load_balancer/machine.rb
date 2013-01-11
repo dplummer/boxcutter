@@ -1,11 +1,14 @@
 module Boxcutter::LoadBalancer
   class Machine
+    include Boxcutter::Logging
+
     attr_reader :api, :backend
 
-    def initialize(backend, api, attrs)
+    def initialize(backend, api, attrs, logger = $stdout)
       @backend = backend
       @api = api
       @attrs = attrs
+      @logger = logger
     end
 
     def to_s

@@ -1,10 +1,13 @@
 module Boxcutter::LoadBalancer
   class Service
+    include Boxcutter::Logging
+
     attr_reader :api
 
-    def initialize(api, attrs)
+    def initialize(api, attrs, logger = $stdout)
       @api = api
       @attrs = attrs
+      @logger = logger
     end
 
     def to_s
@@ -36,7 +39,16 @@ module Boxcutter::LoadBalancer
     end
 
     def backends
-      api.backends(id).map {|attrs| Backend.new(api, attrs)}
+      api.backends(id).map {|attrs| Backend.new(api, attrs, logger)}
+    end
+
+    def each_backend_named(backend_name, &block)
+      results = backends.select {|backend| backend.name == backend_name}
+      if !results.empty?
+        results.each(&block)
+      else
+        log "Could not find '#{backend_name}' on '#{self}'"
+      end
     end
   end
 end

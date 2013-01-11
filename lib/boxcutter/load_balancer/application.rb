@@ -1,8 +1,10 @@
 module Boxcutter::LoadBalancer
   class Application
-    def self.all
+    include Boxcutter::Logging
+
+    def self.all(logger = $stdout)
       api = ::Boxcutter::Api.new(*ENV['BBG_API_KEY'].split(':'))
-      api.applications.map {|attrs| new(api, attrs)}
+      api.applications.map {|attrs| new(api, attrs, logger)}
     end
 
     def self.find(id, api = nil)
@@ -12,9 +14,10 @@ module Boxcutter::LoadBalancer
 
     attr_reader :api
 
-    def initialize(api, attrs)
+    def initialize(api, attrs, logger = $stdout)
       @api = api
       @attrs = attrs
+      @logger = logger
     end
 
     def to_s
@@ -38,7 +41,7 @@ module Boxcutter::LoadBalancer
     end
 
     def services
-      api.services(id).map {|attrs| Service.new(api, attrs)}
+      api.services(id).map {|attrs| Service.new(api, attrs, logger)}
     end
   end
 end

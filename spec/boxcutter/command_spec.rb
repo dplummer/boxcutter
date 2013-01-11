@@ -11,18 +11,15 @@ module Boxcutter
                          :hostname => 'app1',
                          :id => "MACHINE1",
                          :to_s => 'app1 machine') }
-    let(:other_machine) { stub("Other Machine", :hostname => 'badapp2')}
-    let(:machines) { [machine, other_machine] }
-    let(:backends) { [backend, other_backend] }
-    let(:other_backend) { stub("Other Backend", :name => 'foo')}
+    let(:found_backends) { [backend] }
+    let(:found_machines) { [machine] }
     let(:backend) { stub("Backend",
                          :name => 'default',
                          :add_server => add_response,
-                         :machines => machines,
                          :to_s => 'default')}
     let(:app) { stub("App", :services => services) }
     let(:services) { [service] }
-    let(:service) { stub("Service", :name => "HTTP", :backends => backends, :to_s => 'HTTP') }
+    let(:service) { stub("Service", :name => "HTTP", :to_s => 'HTTP') }
 
     subject { Command.new(logger) }
 
@@ -33,6 +30,8 @@ module Boxcutter
 
     before(:each) do
       Boxcutter::LoadBalancer::Application.stub(:all).and_return([app])
+      service.stub(:each_backend_named).and_yield(backend)
+      backend.stub(:each_machine_named).and_yield(machine)
     end
 
     describe "#remove_machine" do
@@ -77,27 +76,6 @@ module Boxcutter
           logger_contents.should include("app1 was not removed from the backend because --dryrun was specified")
         end
       end
-
-      context "could not find a backend" do
-        let(:backends) { [other_backend] }
-  
-        it "logs the error" do
-          subject.remove_machine(opts)
-
-          logger_contents.should include("Could not find 'default' on 'HTTP'")
-        end
-      end
-
-      context "could not find a machine on the backend" do
-        let(:machines) { [other_machine] }
-
-        it "logs the error" do
-          subject.remove_machine(opts)
-
-          logger_contents.should include("Could not find 'app1' on 'default'")
-        end
-      end
-
 
       context "no hostname specified" do
         it "raises an IndexError" do
@@ -154,26 +132,6 @@ module Boxcutter
           subject.add_machine(opts)
 
           logger_contents.should include("app1 was not added to the backend because --dryrun was specified")
-        end
-      end
-
-      context "backend is not found" do
-        let(:backends) { [other_backend] }
-
-        it "logs the error" do
-          subject.add_machine(opts)
-
-          logger_contents.should include("Could not find 'default' backend on 'HTTP'")
-        end
-      end
-
-      context "server is not found" do
-        let(:server) { nil }
-
-        it "logs the error" do
-          subject.add_machine(opts)
-
-          logger_contents.should include("Could not find server 'app1' on BlueBoxGroup")
         end
       end
     end
