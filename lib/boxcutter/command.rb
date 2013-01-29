@@ -50,7 +50,7 @@ module Boxcutter
           service.each_backend_named(backend_name) do |backend|
             log "Adding server #{server.hostname} to backend #{backend.name}"
             unless dryrun
-              response = backend.add_server(server.id, :port => 80)
+              response = backend.add_machine(server.id, :port => 80)
               log "Added #{server.hostname} to #{backend.name} with response: #{response.body}"
             else
               log "#{server.hostname} was not added to the backend because --dryrun was specified"
