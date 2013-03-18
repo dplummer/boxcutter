@@ -23,7 +23,13 @@ module Boxcutter::LoadBalancer
     end
 
     def machines
-      api.machines(id).map {|attrs| Machine.new(self, api, attrs, logger)}
+      resp = api.machines(id)
+
+      if resp.success?
+        resp.parsed.map {|attrs| Machine.new(self, api, attrs, logger)}
+      else
+        []
+      end
     end
 
     def remove_machine(machine_id)

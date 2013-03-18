@@ -1,5 +1,6 @@
 require 'faraday'
 require 'yajl'
+require 'delegate'
 
 module Boxcutter
   class Api
@@ -12,13 +13,19 @@ module Boxcutter
       "#<Api customer_id:'#{@customer_id}' api_key_secret:'***'>"
     end
 
+    class Response < SimpleDelegator
+      def parsed
+        @parsed ||= begin
+                      Yajl::Parser.new.parse(body)
+                    rescue Yajl::ParseError
+                      nil
+                    end
+      end
+    end
+
     def get(path)
       response = conn.get(path)
-      begin
-        Yajl::Parser.new.parse(response.body).merge(:success => response.success?)
-      rescue Yajl::ParseError
-        {:message => response.body, :success => false}
-      end
+      Response.new(response)
     end
 
     def conn

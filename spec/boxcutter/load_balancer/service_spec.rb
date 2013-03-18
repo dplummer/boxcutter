@@ -4,7 +4,7 @@ require 'stringio'
 module Boxcutter::LoadBalancer
   describe Service do
     let(:logger)   { StringIO.new }
-    let(:api)      { mock("Api", :backends => [{}, {}, {}])}
+    let(:api)      { mock("Api", :backends => successful_response([{}, {}, {}]))}
 
     subject { Service.new(api, {'id' => 123, 'name' => 'test service', 'port' => 80}, logger) }
 

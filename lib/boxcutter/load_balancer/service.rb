@@ -39,7 +39,13 @@ module Boxcutter::LoadBalancer
     end
 
     def backends
-      api.backends(id).map {|attrs| Backend.new(api, attrs, logger)}
+      resp = api.backends(id)
+
+      if resp.success?
+        resp.parsed.map {|attrs| Backend.new(api, attrs, logger)}
+      else
+        []
+      end
     end
 
     def each_backend_named(backend_name, &block)

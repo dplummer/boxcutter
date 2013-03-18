@@ -2,7 +2,13 @@ module Boxcutter
   class Server
     def self.all
       api = Api.new(*ENV['BBG_API_KEY'].split(':'))
-      api.servers.map {|attrs| new(api, attrs)}
+      resp = api.servers
+
+      if resp.success?
+        resp.parsed.map {|attrs| new(api, attrs)}
+      else
+        []
+      end
     end
 
     def self.find_by_hostname(hostname)

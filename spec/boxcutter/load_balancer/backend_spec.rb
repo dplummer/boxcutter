@@ -4,7 +4,7 @@ require 'stringio'
 module Boxcutter::LoadBalancer
   describe Backend do
     let(:logger)   { StringIO.new }
-    let(:api)      { mock("Api", :machines => [{}, {}, {}])}
+    let(:api)      { mock("Api", :machines => successful_response([{}, {}, {}])) }
 
     subject { Backend.new(api, {'id' => 123,
                                 'backend_name' => 'test backend',
@@ -20,7 +20,6 @@ module Boxcutter::LoadBalancer
       let(:machine2) { mock("machine 2", :hostname => 'lame.machine')}
       let(:machine3) { mock("machine 3", :hostname => 'cool.machine')}
       let(:logger)   { StringIO.new }
-      let(:api)      { mock("Api", :machines => [{}, {}, {}])}
 
       before(:each) do
         Machine.stub(:new).and_return(machine1, machine2, machine3)

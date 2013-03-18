@@ -4,15 +4,21 @@ module Boxcutter::LoadBalancer
 
     def self.all(logger = $stdout)
       api = ::Boxcutter::Api.new(*ENV['BBG_API_KEY'].split(':'))
-      api.applications.map {|attrs| new(api, attrs, logger)}
+      resp = api.applications
+
+      if resp.success?
+        resp.parsed.map {|attrs| new(api, attrs, logger)}
+      else
+        []
+      end
     end
 
     def self.find(id, api = nil)
       api = ::Boxcutter::Api.new(*ENV['BBG_API_KEY'].split(':')) if api.nil?
-      raw_app = api.application(id)
+      resp = api.application(id)
 
-      if raw_app[:success]
-        new(api, raw_app)
+      if resp.success?
+        new(api, resp.parsed)
       end
     end
 
@@ -45,7 +51,13 @@ module Boxcutter::LoadBalancer
     end
 
     def services
-      api.services(id).map {|attrs| Service.new(api, attrs, logger)}
+      resp = api.services(id)
+
+      if resp.success?
+        resp.parsed.map {|attrs| Service.new(api, attrs, logger)}
+      else
+        []
+      end
     end
   end
 end
