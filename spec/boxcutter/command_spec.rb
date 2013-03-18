@@ -15,7 +15,7 @@ module Boxcutter
     let(:found_machines) { [machine] }
     let(:backend) { stub("Backend",
                          :name => 'default',
-                         :add_server => add_response,
+                         :add_machine => add_response,
                          :to_s => 'default')}
     let(:app) { stub("App", :services => services) }
     let(:services) { [service] }
@@ -110,7 +110,7 @@ module Boxcutter
       end
 
       it "adds the machine by id, using port 80" do
-        backend.should_receive(:add_server).with('APP1', :port => 80)
+        backend.should_receive(:add_machine).with('APP1', :port => 80)
         subject.add_machine(opts)
       end
 
