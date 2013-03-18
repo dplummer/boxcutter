@@ -12,7 +12,7 @@ Currently supported:
 You need to specify your `BBG_API_KEY` in your environment first.
 
 ```bash
-    $ export BBG_API_KEY=123456:abcdefg
+$ export BBG_API_KEY=123456:abcdefg
 ```
 
 Where `123456` is your customer id and `abcdefg` is your api key. See
@@ -23,20 +23,20 @@ section for more information.
 Then load up the API in irb:
 
 ```ruby
- $ irb -r './lib/boxcutter'
- 1.9.3p194 :001 > apps = Boxcutter::LoadBalancer::Application.all
-  => [#<Application id:'88888888-cccc-4444-8888-dddddddddddd' name:'example.com' ip_v4:'192.168.1.1' ip_v6:'::1'>]
+$ irb -r './lib/boxcutter'
+1.9.3p194 :001 > apps = Boxcutter::LoadBalancer::Application.all
+ => [#<Application id:'88888888-cccc-4444-8888-dddddddddddd' name:'example.com' ip_v4:'192.168.1.1' ip_v6:'::1'>]
 ```
 
 Command-line script to remove a machine from a load balancer.
 
 ```bash
-    $ ./bin/remove_machine.rb -h
-    Options:
-       --backend, -b <s>:   Service backend name (default: default)
-       --hostname, -n <s>:  Machine hostname to remove
-       --dryrun, -d:        Don't actually remove the server from the backend
-       --help, -h:          Show this message
+$ ./bin/remove_machine.rb -h
+Options:
+   --backend, -b <s>:   Service backend name (default: default)
+   --hostname, -n <s>:  Machine hostname to remove
+   --dryrun, -d:        Don't actually remove the server from the backend
+   --help, -h:          Show this message
 ```
 
 Command-line script to add a machine to a load balancer. This script
@@ -44,12 +44,12 @@ assumes you have two services, one for http and one for https. It will
 add the machine to each service, but with the port set to 80.
 
 ```bash
-    $ ./bin/add_machine.rb -h
-    Options:
-       --backend, -b <s>:   Service backend name (default: default)
-       --hostname, -n <s>:  Machine hostname to remove
-       --dryrun, -d:        Don't actually remove the server from the backend
-       --help, -h:          Show this message
+$ ./bin/add_machine.rb -h
+Options:
+   --backend, -b <s>:   Service backend name (default: default)
+   --hostname, -n <s>:  Machine hostname to remove
+   --dryrun, -d:        Don't actually remove the server from the backend
+   --help, -h:          Show this message
 ```
 
 This is definately a work in progress. The goal is to use this wrapper
