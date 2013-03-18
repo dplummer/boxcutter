@@ -1,9 +1,8 @@
 # -*- encoding: utf-8 -*-
-require File.expand_path('../lib/./version', __FILE__)
 
 Gem::Specification.new do |gem|
   gem.authors       = ["Donald Plummer"]
-  gem.email         = ["donald@cideasphere.com"]
+  gem.email         = ["donald@crystalcommerce.com"]
   gem.description   = %q{Wrapper for BlueBoxGroup's API}
   gem.summary       = %q{Wrapper for BlueBoxGroup's API}
   gem.homepage      = "https://github.com/dplummer/boxcutter"
@@ -25,13 +24,12 @@ Gem::Specification.new do |gem|
     lib/boxcutter/load_balancer/machine.rb
     lib/boxcutter/load_balancer/service.rb
     lib/boxcutter/server.rb
-    lib/version.rb
   ]
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.name          = "boxcutter"
   gem.require_paths = ["lib"]
-  gem.version       = Boxcutter::VERSION
+  gem.version       = "0.3.0"
 
   gem.add_dependency('faraday', '~> 0.8.1')
   gem.add_dependency('trollop', '~> 1.16.2')
