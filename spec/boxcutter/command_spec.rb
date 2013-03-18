@@ -29,7 +29,7 @@ module Boxcutter
     end
 
     before(:each) do
-      Boxcutter::LoadBalancer::Application.stub(:all).and_return([app])
+      Boxcutter::LoadBalancer::Application.stub(:find).and_return(app)
       service.stub(:each_backend_named).and_yield(backend)
       backend.stub(:each_machine_named).and_yield(machine)
     end
@@ -38,11 +38,18 @@ module Boxcutter
       let(:hostname)    { "app1" }
       let(:backend_opt) { "default" }
       let(:dryrun)      { false }
+      let(:app_id)      { "abc123" }
       let(:opts) {{
-        :backend => backend_opt,
-        :dryrun  => dryrun,
-        :hostname => hostname
+        :backend  => backend_opt,
+        :dryrun   => dryrun,
+        :hostname => hostname,
+        :app_id   => app_id
       }}
+
+      it "finds the Load Balancer Application by id" do
+        LoadBalancer::Application.should_receive(:find).with(app_id)
+        subject.remove_machine(opts)
+      end
 
       it "removes the machine from the load balancer" do
         machine.should_receive(:remove!)
@@ -84,16 +91,28 @@ module Boxcutter
           end.to raise_error(IndexError)
         end
       end
+
+      context "could not find the application" do
+        let(:app) { nil }
+
+        it "logs the failure" do
+          subject.remove_machine(opts)
+
+          logger_contents.should include("Could not find application 'abc123'")
+        end
+      end
     end
 
     describe "#add_machine" do
       let(:hostname)    { "app1" }
       let(:backend_opt) { "default" }
       let(:dryrun)      { false }
+      let(:app_id)      { "abc123" }
       let(:opts) {{
-        :backend => backend_opt,
-        :dryrun  => dryrun,
-        :hostname => hostname
+        :backend  => backend_opt,
+        :dryrun   => dryrun,
+        :hostname => hostname,
+        :app_id   => app_id
       }}
       let(:server) { stub("Server", :hostname => 'app1', :id => "APP1") }
 
@@ -101,6 +120,11 @@ module Boxcutter
         Boxcutter::Server.stub(:find_by_hostname).
                           with("app1.blueboxgrid.com").
                           and_return(server)
+      end
+
+      it "finds the Load Balancer Application by id" do
+        LoadBalancer::Application.should_receive(:find).with(app_id)
+        subject.remove_machine(opts)
       end
 
       it "logs the server add" do
@@ -132,6 +156,16 @@ module Boxcutter
           subject.add_machine(opts)
 
           logger_contents.should include("app1 was not added to the backend because --dryrun was specified")
+        end
+      end
+
+      context "could not find the application" do
+        let(:app) { nil }
+
+        it "logs the failure" do
+          subject.add_machine(opts)
+
+          logger_contents.should include("Could not find application 'abc123'")
         end
       end
     end

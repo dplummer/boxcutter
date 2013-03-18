@@ -9,7 +9,11 @@ module Boxcutter::LoadBalancer
 
     def self.find(id, api = nil)
       api = ::Boxcutter::Api.new(*ENV['BBG_API_KEY'].split(':')) if api.nil?
-      new(api, api.application(id))
+      raw_app = api.application(id)
+
+      if raw_app[:success]
+        new(api, raw_app)
+      end
     end
 
     attr_reader :api

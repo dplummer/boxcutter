@@ -6,6 +6,7 @@ opts = Trollop::options do
   opt :backend, "Service backend name", :type => String, :default => 'default'
   opt :hostname, "Machine hostname to add", :type => String, :short => 'n'
   opt :dryrun, "Don't actually add the server to the backend"
+  opt :app_id, "Application ID to add the machine to", :type => String
 end
 
 if opts[:hostname].nil? || opts[:hostname].empty?

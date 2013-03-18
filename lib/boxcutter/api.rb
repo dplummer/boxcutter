@@ -15,9 +15,9 @@ module Boxcutter
     def get(path)
       response = conn.get(path)
       begin
-        Yajl::Parser.new.parse(response.body)
+        Yajl::Parser.new.parse(response.body).merge(:success => response.success?)
       rescue Yajl::ParseError
-        {:message => response.body}
+        {:message => response.body, :success => false}
       end
     end
 
