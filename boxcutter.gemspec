@@ -33,7 +33,7 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency('faraday', '~> 0.8.1')
   gem.add_dependency('trollop', '~> 1.16.2')
-  gem.add_dependency('yajl-ruby', '~> 1.1.0')
+  gem.add_dependency('yajl-ruby', '>= 1.1', '< 1.5')
 
   gem.add_development_dependency('rspec', '~> 2.11.0')
   gem.add_development_dependency('guard', '~> 1.2.3')
